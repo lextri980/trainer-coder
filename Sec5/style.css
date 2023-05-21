@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+}
+
+.container, .flexbox {
+  width: 100vw;
+  height: 100vh;
+}
+
+.header {
+  width: 100%;
+  height: 10vh;
+  background-color: yellow;
+}
+
+.body {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+}
+
+.sidebar {
+  width: 20vw;
+  height: 100%;
+  background-color: green;
+}
+.content {
+  width: 60vw;
+  height: 100%;
+  background-color: orange;
+}
+.user-list {
+  width: 20vw;
+  height: 100%;
+  background-color: aqua;
+}
+
+/* ----------------------------- End section ------------------------------ */
+
+.flexbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.box-1,
+.box-2,
+.box-3,
+.box-4 {
+  width: 100px;
+  height: 100px;
+}
+
+.box-1 {
+  background-color: aqua;
+}
+.box-2 {
+  background-color: red;
+}
+.box-3 {
+  background-color: orange;
+}
+.box-4 {
+  background-color: rgb(45, 255, 91);
+}
+
+table,
+tr,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+}
+
+th,
+td {
+  width: 300px;
+  padding: 50px 20px;
+}
+
+p {
+  height: 100px;
+  color: red;
+  text-align: justify;
+  vertical-align: middle;
+  border: 3px solid black;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 40px;
+  font-weight: 900;
+  font-style: italic;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
+ol {
+  list-style-type: lower-roman;
+}
