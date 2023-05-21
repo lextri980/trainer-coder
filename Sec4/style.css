@@ -1,29 +1,125 @@
-p, h2{
-    color: red;
-}
-.ola {
-    color: aqua;
-}
-.background {
-    width: 100%; height: 500px; 
-    background-color: rgba(255, 0, 0, 0.2);
-    background-image: url(./img/sky.webp);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-}
-body{
-    width: 200vw;
+/* /* p {
+    color: crimson;
+    text-align: center;
+    border: 1px solid black;
+    text-decoration: overline;
+    text-decoration-color: aquamarine;
+    text-shadow: 1px 2px 10px crimson;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 20px;
+    font-style: oblique;
 }
 
-.inline{
+a {
+    text-decoration: none;
+}
+
+a:link {
+    color: yellow;
+    text-decoration: dashed;
+}
+
+a:visited {
+    color: crimson;
+    text-decoration: dotted;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: black;
+}
+
+ul {
+    list-style-type: none;
+}
+
+ol {
+    list-style-type: upper-roman;
+}
+
+table,
+th,
+td {
+    border-collapse: collapse;
+    width: 500px;
+    height: 100px;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 10px 20px;
+}
+
+tr:nth-child(even) {
+    background-color: rgb(210, 210, 210);
+    color: black;
+}
+span{
     display: block;
+    height: 200px;
+    width: 100px;
+} */
+/* }
+.container{
     width: 100vw;
-    height: 20vh;
-    border: 5px solid crimson;
-    border-radius: 30px;
-    padding: 20px 20px 40px 50px;
-    padding-bottom: 10px;
-    margin: 100px;
+    height: 100vh;
+}
+.box-1 {
+    background-color: crimson;
+    width: 200px;
+    height: 200px;
 }
 
+.box-2 {
+    background-color: green;
+    width: 200px;
+    height: 200px;
+}
+
+.box-3 {
+    background-color: orange;
+    width: 200px;
+    height: 200px;
+}
+.box-4{
+    width: 200px;
+    height: 200px;
+    background-color: darkblue;
+}
+
+.flex {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    /* justify-content: space-evenly; */
+/* align-items: center;    
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2px 100px; */
+/* } */
+* {
+    margin: 0px;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.header {
+    width: 100vw;
+    height: 200px;
+    background-color: crimson;
+}
+
+.box-bo {
+    height: calc(100vh - 200px);
+    display: flex;
+    width: 100%;
+}
+.sidebar{
+    background-color: green;
+    width:200px;
+    height: calc(100vh - 200px);
+}
