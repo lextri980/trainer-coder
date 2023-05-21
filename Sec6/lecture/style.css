@@ -1,0 +1,106 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100vw;
+  height: 200vh;
+}
+
+.header {
+  width: 100vw;
+  background-color: greenyellow;
+  height: 100px;
+  position: fixed;
+  top: 0;
+  padding-right: 30px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 99;
+}
+
+
+.sidebar {
+  background-color: red;
+  width: 20vw;
+  height: calc(100vh - 100px);
+  position: fixed;
+  /* top: 100px; */
+}
+
+.content {
+  /* margin: 100px 0 0 20vw; */
+  z-index: 999999;
+}
+
+
+/* .container {
+  display: flex;
+  justify-content: center;
+  height: 300vh;
+}
+
+.body {
+  display: flex;
+  width: 100vw;
+}
+
+.header {
+  margin-top: 50px;
+  background-color: yellowgreen;
+  width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  position: relative;
+}
+
+p {
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: red;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+
+.fixed {
+  margin-top: 100px;
+  width: 100px;
+  height: 100px;
+  background-color: orange;
+  position: sticky;
+  top: 30px;
+  top: 10px;
+  bottom: 30px;
+  right: 30px;
+}
+
+.sidebar,
+.content,
+.user-list {
+  width: 200px;
+  height: 200px;
+}
+
+.sidebar {
+  background-color: aqua;
+  position: relative;
+  left: 30px;
+}
+
+.content {
+  background-color: red;
+}
+.user-list {
+  background-color: orange;
+} */
