@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facebook</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="facebook-container">
+      <!----------------------------- HEADER ------------------------------------>
+      <div class="header">
+        <div class="search-section flex">
+          <img src="img/facebook.png" alt="facebook" width="40" height="40" />
+          <div class="search-input-group">
+            <input
+              class="search-input"
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search in Facebook"
+            />
+            <i class="bi bi-search"></i>
+          </div>
+        </div>
+
+        <div class="nav-section">
+          <i class="bi bi-house-door-fill active"></i>
+          <i class="bi bi-youtube"></i>
+          <i class="bi bi-shop"></i>
+          <i class="bi bi-controller"></i>
+        </div>
+
+        <div class="action-section">
+          <i class="bi bi-three-dots"></i>
+          <i class="bi bi-messenger"></i>
+          <i class="bi bi-bell-fill"></i>
+          <div class="avatar">A</div>
+        </div>
+      </div>
+
+      <!----------------------------- BODY ------------------------------------>
+      <div class="body">
+        <!----------- SIDEBAR ------------->
+        <div class="sidebar">
+          <ul class="list">
+            <li>
+              <div class="avatar">A</div>
+              <span class="sidebar-item">Xuan Tri</span>
+            </li>
+            <li>
+              <i class="bi bi-people-fill sidebar-item-icon"></i>
+              <span class="sidebar-item">Friends</span>
+            </li>
+            <li>
+              <i class="bi bi-person-video sidebar-item-icon"></i>
+              <span class="sidebar-item">Groups</span>
+            </li>
+            <li>
+              <i class="bi bi-shop sidebar-item-icon"></i>
+              <span class="sidebar-item">Marketplace</span>
+            </li>
+            <li>
+              <i class="bi bi-newspaper sidebar-item-icon"></i>
+              <span class="sidebar-item">Newsfeed</span>
+            </li>
+            <li>
+              <i class="bi bi-youtube sidebar-item-icon"></i>
+              <span class="sidebar-item">Watch</span>
+            </li>
+            <li>
+              <i class="bi bi-chevron-down avatar"></i>
+              <span class="sidebar-item">Expand</span>
+            </li>
+            <li class="separate-line"></li>
+            <div class="under-separate-line">
+              <li class="no-hover short-cut">
+                <span>Lối tắt của bạn</span>
+                <a href="#">Chỉnh sửa</a>
+              </li>
+              <li>
+                <img src="img/facebook.png" width="30" height="30" alt="" />
+                <span class="sidebar-item">Coding trainer</span>
+              </li>
+              <li>
+                <img src="img/facebook.png" width="30" height="30" alt="" />
+                <span class="sidebar-item">Coding trainer</span>
+              </li>
+              <li>
+                <img src="img/facebook.png" width="30" height="30" alt="" />
+                <span class="sidebar-item">Coding trainer</span>
+              </li>
+              <li>
+                <img src="img/facebook.png" width="30" height="30" alt="" />
+                <span class="sidebar-item">Coding trainer</span>
+              </li>
+              <li>
+                <img src="img/facebook.png" width="30" height="30" alt="" />
+                <span class="sidebar-item">Coding trainer</span>
+              </li>
+            </div>
+          </ul>
+        </div>
+
+        <!----------- CARD CONTAINER ------------->
+        <div class="card-container"></div>
+
+        <!----------- USER LIST ------------->
+        <div class="user-list">
+          <div class="sponsor">
+            <span class="user-list-title">
+              Được tài trợ
+            </span>
+          </div>
+          <div class="your-page"></div>
+          <div class="contactor"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
