@@ -137,3 +137,13 @@ const userDetail = {
   phoneNumber: "0987654321",
   favouriteFlower: ["rose", "morning glory"],
 };
+
+const markRecord = {
+  name: 'Peter Parker',
+  class: '6C18',
+  mark: {
+    math: 9.2,
+    physics: 9.0,
+    chemistry: 8.4,
+  }
+}
