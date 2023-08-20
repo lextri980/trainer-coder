@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo list</title>
+    <link rel="stylesheet" href="style.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body>
+    <div class="todo-container">
+      <p class="title">Todo list</p>
+      <div class="form-group">
+        <input class="todo-input" type="text" placeholder="Enter todo..." />
+        <button class="add-btn">Add</button>
+      </div>
+      <div class="list-todo-contain">
+        <ul class="list-todo"></ul>
+      </div>
+    </div>
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Update todo</h3>
+        <span class="close">X</span>
+      </div>
+      <div class="modal-body">
+        <p>Change your todo here</p>
+        <br>
+        <input class="update-input" type="text">
+      </div>
+      <div class="modal-footer">
+        <button class="close-btn close">Close</button>
+        <button class="submit-btn">Update</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.todo-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.form-group {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  width: 300px;
+}
+
+.form-group input {
+  width: 100%;
+}
+
+.list-todo-contain {
+  width: 300px;
+  display: flex;
+}
+
+ul {
+  width: 100%;
+  padding-left: 0;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
+}
+
+ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-input {
+  padding: 5px 10px;
+}
+
+.add-btn {
+  background-color: rgb(120, 255, 120);
+  border: none;
+  padding: 7px 10px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.del-btn,
+.update-btn {
+  background-color: rgb(255, 102, 102);
+  border: none;
+  padding: 5px 10px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: white;
+  cursor: pointer;
+}
+.update-btn {
+  background-color: rgb(253, 180, 69);
+}
+
+.group-btn {
+  display: flex;
+  gap: 10px;
+}
+
+.modal {
+  width: 500px;
+  min-height: 50px;
+  background-color: white;
+  box-shadow: 5px 5px 10px rgb(181, 181, 181);
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5px;
+  display: none;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  font-size: 20px;
+}
+
+.modal-header span {
+  cursor: pointer;
+}
+
+.modal-body {
+  border-top: 1px solid rgb(195, 195, 195);
+  border-bottom: 1px solid rgb(195, 195, 195);
+  padding: 10px 20px;
+}
+
+.modal-body input {
+  width: 100%;
+}
+
+.modal-footer {
+  padding: 10px 20px;
+  display: flex;
+  gap: 0 20px;
+  justify-content: flex-end;
+}
+
+.modal-footer button {
+  width: 70px;
+  height: 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.close-btn {
+  background-color: rgb(195, 195, 195);
+}
+
+.submit-btn {
+  background-color: rgb(154, 255, 108);
+}
