@@ -11,7 +11,7 @@
     </ul>
 
     <button @click="countUp">Count up</button>
-    <button @click="countDown">Count down</button>
+    <button class="btn" @click="countDown">Count down</button>
 
     <p class="fullname">{{ fullName }}</p>
     <p class="fullname">{{ fullName2() }}</p>
@@ -33,20 +33,45 @@
     <input type="text" v-model="formData.content" placeholder="content" />
     <br />
     <button @click="onSubmit">Submit</button> -->
-    <TodoList></TodoList>
+    <!-- <TodoList></TodoList> -->
+    <!-- <MarkTable></MarkTable> -->
+    <!-- <ComponentTraining
+      :classListProps="classList"
+      :title="title"
+      @table-click="logEverything"
+    >
+    </ComponentTraining> -->
+    <component :is="currentComponent"></component>
+
+    <div class="group-btn">
+      <button @click="currentComponent = TodoList">Todo list</button>
+      <button @click="currentComponent = MarkTable">Template</button>
+      <button @click="currentComponent = ComponentTraining">
+        Component training
+      </button>
+    </div>
   </div>
 </template>
 
 <script>
 import TodoList from "./components/TodoList.vue";
+import MarkTable from "./components/MarkTable.vue";
+import ComponentTraining from "./components/ComponentTraining.vue";
 
 export default {
   name: "App",
   components: {
     TodoList,
+    MarkTable,
+    ComponentTraining,
   },
   data() {
     return {
+      TodoList,
+      MarkTable,
+      ComponentTraining,
+
+      currentComponent: MarkTable,
       formData: {
         title: "",
         content: "",
@@ -58,6 +83,34 @@ export default {
       firstName2: "Abc",
       lastName2: "Def",
       original: true,
+      title: "Mark table",
+      classList: [
+        {
+          id: 1231232,
+          firstname: "Nguyen",
+          lastname: "B",
+          class: "1C",
+          math: 9,
+          physics: 10,
+          chemistry: 9.5,
+        },
+        {
+          firstname: "Le",
+          lastname: "A",
+          class: "2C",
+          math: 9.2,
+          physics: 9.8,
+          chemistry: 9,
+        },
+        {
+          firstname: "Nguyen",
+          lastname: "B",
+          class: "3C",
+          math: 9.2,
+          physics: 8.9,
+          chemistry: 10,
+        },
+      ],
     };
   },
   computed: {
@@ -93,17 +146,28 @@ export default {
     onSubmit() {
       console.log(this.formData);
     },
+    logEverything(log) {
+      console.log(log);
+    },
   },
 };
 
 //reactive state
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .original {
   color: red;
 }
 .orange {
   color: orange;
+}
+.group-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
 }
 </style>

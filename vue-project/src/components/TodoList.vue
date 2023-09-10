@@ -1,19 +1,28 @@
 <template>
   <div class="todo-list-container">
     <div class="group-input-section">
-      <input v-model="todo" type="text" placeholder="Enter todo..." />
+      <input @keydown.enter="addTodo" v-model="todo" type="text" placeholder="Enter todo..." />
       <button @click="addTodo">Add</button>
     </div>
+    <small style="color: red">{{ errorMessage }}</small>
     <div class="list-todo">
-      <div class="single-todo" v-for="(item, index) in todoList" :key="item.id">
+      <div class="single-todo" v-for="item in todoList" :key="item.id">
         <div class="input-group">
-          <input type="checkbox" />
-          <p v-if="!item.isUpdate">{{ item.title }}</p>
-          <input v-model="updatedTodo" v-else type="text" />
+          <input
+            @change="checkDone(item.id)"
+            type="checkbox"
+            v-model="item.done"
+            :disabled="isDisabled"
+          />
+          <p :class="item.done ? 'line-through' : ''" v-if="!item.isUpdate">
+            {{ item.title }}
+          </p>
+          <input v-else v-model="updatedTodo" type="text" />
         </div>
         <div class="btn-group">
           <button
             v-if="!item.isUpdate"
+            :disabled="isDisabled"
             class="update-btn"
             @click="handleUpdate(item.id)"
           >
@@ -30,6 +39,7 @@
             v-if="!item.isUpdate"
             class="delete-btn"
             @click="deleteTodo(item.id)"
+            :disabled="isDisabled"
           >
             Delete
           </button>
@@ -46,31 +56,52 @@ export default {
   data() {
     return {
       todo: "",
-      updatedTodo: "",
+      updatedTodo: "dhcashdiuahsicxzjzcz",
+      isDisabled: false,
       todoList: [],
-
+      errorMessage: "",
     };
   },
+  mounted() {
+    const newArr = this.todoList.filter((item, index) => item.id % 2 === 0);
+    console.log(newArr);
+  },
   methods: {
+    // handleKeyDown(e) {
+    //   if(e.key === 'Enter') {
+    //     this.addTodo()
+    //   }
+    // },
     addTodo() {
-      const form = {
-        id: this.todoList.length,
-        title: this.todo,
-        isUpdate: false,
-      };
-      this.todoList.push(form);
-      this.todo = "";
+      this.errorMessage = "";
+      if (this.todo.length === 0) {
+        this.errorMessage = "Enter first";
+      } else {
+        const form = {
+          id: Math.floor(Math.random() * 1000000),
+          title: this.todo,
+          isUpdate: false,
+          done: false,
+        };
+        this.todoList.push(form);
+        this.todo = "";
+      }
     },
     handleUpdate(id) {
       this.todoList[id].isUpdate = true;
       this.updatedTodo = this.todoList[id].title;
+      this.isDisabled = true;
     },
     confirmUpdate(id) {
       this.todoList[id].title = this.updatedTodo;
       this.todoList[id].isUpdate = false;
+      this.isDisabled = false;
     },
-    deleteTodo(id) {
-      this.todoList = this.todoList.filter((item) => item.id !== id);
+    deleteTodo(chosenId) {
+      this.todoList = this.todoList.filter((ele) => ele.id !== chosenId);
+    },
+    checkDone(id) {
+      this.todoList[id].done = this.todoList[id].done;
     },
   },
 };
@@ -125,12 +156,21 @@ export default {
         }
         .update-btn {
           background-color: rgb(255, 137, 19);
+          &[disabled] {
+            background-color: rgb(255, 137, 19, 0.5);
+          }
         }
         .delete-btn {
           background-color: rgb(255, 41, 41);
+          &[disabled] {
+            background-color: rgb(255, 41, 41, 0.5);
+          }
         }
       }
     }
   }
+}
+.line-through {
+  text-decoration: line-through;
 }
 </style>
