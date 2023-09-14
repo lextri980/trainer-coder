@@ -44,7 +44,7 @@ export default {
     },
     logEverything: {
       type: Function,
-    }
+    },
   },
   components: {},
   data() {

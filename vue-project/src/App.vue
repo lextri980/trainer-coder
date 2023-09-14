@@ -43,7 +43,10 @@
     </ComponentTraining> -->
     <component :is="currentComponent"></component>
 
+    <CustomButton @press="onClick" variant="warning">Click</CustomButton>
+
     <div class="group-btn">
+      <b-button variant="primary">Open Modal</b-button>
       <button @click="currentComponent = TodoList">Todo list</button>
       <button @click="currentComponent = MarkTable">Template</button>
       <button @click="currentComponent = ComponentTraining">
@@ -57,6 +60,8 @@
 import TodoList from "./components/TodoList.vue";
 import MarkTable from "./components/MarkTable.vue";
 import ComponentTraining from "./components/ComponentTraining.vue";
+import Modal from './components/Modal.vue'
+import CustomButton from './components/CustomButton.vue'
 
 export default {
   name: "App",
@@ -64,6 +69,8 @@ export default {
     TodoList,
     MarkTable,
     ComponentTraining,
+    Modal,
+    CustomButton,
   },
   data() {
     return {
@@ -127,6 +134,9 @@ export default {
     },
   },
   methods: {
+    onClick() {
+      console.log('asdsad')
+    },
     countUp() {
       this.count = this.count + 1;
     },
