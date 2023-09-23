@@ -166,6 +166,24 @@ export default {
       type: "create",
     };
   },
+  created() {
+    console.log('created')
+  },
+  beforeCreate() {
+    console.log('creating')
+  },
+  mounted() {
+    this.testMixin()
+  },
+  beforeMount() {
+    console.log('mounting')
+  },
+  destroyed() {
+    console.log('destroyed')
+  },
+  beforeDestroy() {
+    console.log('destroying')
+  },
   computed: {},
   watch: {},
   methods: {

@@ -41,7 +41,7 @@
       @table-click="logEverything"
     >
     </ComponentTraining> -->
-    <component :is="currentComponent"></component>
+    <!-- <component :is="currentComponent"></component>
 
     <CustomButton @press="onClick" variant="warning">Click</CustomButton>
 
@@ -52,7 +52,8 @@
       <button @click="currentComponent = ComponentTraining">
         Component training
       </button>
-    </div>
+    </div> -->
+    <CustomCard title="Click" btnText="OK" @click="handleClick"> 2</CustomCard>
   </div>
 </template>
 
@@ -62,6 +63,7 @@ import MarkTable from "./components/MarkTable.vue";
 import ComponentTraining from "./components/ComponentTraining.vue";
 import Modal from './components/Modal.vue'
 import CustomButton from './components/CustomButton.vue'
+import CustomCard from "./components/CustomCard.vue";
 
 export default {
   name: "App",
@@ -71,6 +73,7 @@ export default {
     ComponentTraining,
     Modal,
     CustomButton,
+    CustomCard
   },
   data() {
     return {
@@ -120,6 +123,9 @@ export default {
       ],
     };
   },
+  mounted() {
+    console.log('asiudgsaidhiua')
+  },
   computed: {
     fullName: {
       get() {
@@ -134,6 +140,10 @@ export default {
     },
   },
   methods: {
+    /* <!--@--> (handleClick):  ------------------------------------------------------------------------- */
+    handleClick() {
+      console.log('asdasd')
+    },
     onClick() {
       console.log('asdsad')
     },
