@@ -2,8 +2,8 @@
   <div class="news-list-container">
     <h1>News list</h1>
     <div class="search-btn">
-      <input type="text" />
-      <button>Search</button>
+      <input type="text" v-model="searchItem" />
+      <button @click="searchData">Search</button>
     </div>
     <table>
       <thead>
@@ -12,6 +12,7 @@
           <th>Title</th>
           <th>Content</th>
           <th>Action</th>
+          <th>Go detail</th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,9 @@
           <td>{{ item.content }}</td>
           <td>
             <router-link :to="`/news/detail/${item.id}`">Detail</router-link>
+          </td>
+          <td>
+            <button @click="goDetail(item.id)">Go detail</button>
           </td>
         </tr>
       </tbody>
@@ -38,23 +42,44 @@ export default {
       newsList: [
         {
           id: "1",
-          title: "Giá nhà Ha noi",
+          title: "hanoi house",
           content: "Ngáo giá",
         },
         {
           id: "2",
-          title: "Giá nhà Sai Gon",
+          title: "saigon house",
           content: "Ngon",
         },
         {
           id: "3",
-          title: "Giá nhà Đà Lạt",
+          title: "dalat house",
           content: "Có ma",
         },
       ],
+      searchItem: "",
     };
   },
-  methods: {},
+  watch: {
+    "$route.query.title"() {
+      this.newsList = this.newsList.filter((item) => {
+        return item.title === this.$route.query.title;
+      });
+    },
+  },
+  methods: {
+    goDetail(id) {
+      this.$router.push({ name: "news-detail", params: { id } });
+    },
+    searchData() {
+      this.$router
+        .push({
+          name: "news-list",
+          query: { title: this.searchItem },
+        })
+        .catch(() => {});
+      this.searchItem = "";
+    },
+  },
 };
 </script>
 
