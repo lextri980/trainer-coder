@@ -5,8 +5,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
   mode: "history",
-  scrollBehavior(to, from) {
-    console.log(from, to);
+  scrollBehavior() {
     return { x: 0, y: 0, behavior: "smooth" };
   },
   routes: [
@@ -28,13 +27,31 @@ const router = new VueRouter({
           path: "list",
           name: "news-list",
           component: () => import("@/pages/news/NewsList.vue"),
-          meta: {},
+          meta: {
+            isAuth: true
+          },
         },
         {
           path: "detail/:id", // params
           name: "news-detail",
           component: () => import("@/pages/news/NewsDetail.vue"),
-          meta: {},
+          meta: {
+            isAuth: true
+          },
+        },
+      ],
+    },
+    {
+      path: "/post",
+      component: () => import("@/layouts/BaseLayout.vue"),
+      children: [
+        {
+          path: "list",
+          name: "post-list",
+          component: () => import("@/pages/posts/List.vue"),
+          meta: {
+            isAuth: true
+          },
         },
       ],
     },

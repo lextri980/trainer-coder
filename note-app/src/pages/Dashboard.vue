@@ -1,24 +1,34 @@
 <template>
-  <div class='dashboard-container'>
+  <div class="dashboard-container">
     <h1>Dashboard</h1>
-    <button @click="goNews">News</button>
+    <div class="group-btn">
+      <button @click="goNews">News</button>
+      <button @click="$router.push({ name: 'post-list' })">Post list</button>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'DashboardVue',
+  name: "DashboardVue",
   props: {},
   components: {},
   data() {
-    return {}
+    return {};
   },
   methods: {
     goNews() {
-      this.$router.push({name: 'news-list'})
-    }
+      this.$router.push({ name: "news-list" });
+    },
   },
-}
+};
 </script>
 
-<style lang='scss' scoped></style>
+<style scoped>
+.group-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+</style>

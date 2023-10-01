@@ -16,7 +16,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in newsList" :key="index">
+        <tr v-for="(item, index) in cloneList" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ item.title }}</td>
           <td>{{ item.content }}</td>
@@ -56,13 +56,18 @@ export default {
           content: "Có ma",
         },
       ],
+      cloneList: [],
       searchItem: "",
     };
   },
+  mounted() {
+    this.cloneList = [...this.newsList]
+  },
   watch: {
     "$route.query.title"() {
-      this.newsList = this.newsList.filter((item) => {
-        return item.title === this.$route.query.title;
+      this.cloneList = this.newsList.filter((item) => {
+        // return item.title === this.$route.query.title;
+        return item.title.includes(this.$route.query.title);
       });
     },
   },
@@ -71,6 +76,7 @@ export default {
       this.$router.push({ name: "news-detail", params: { id } });
     },
     searchData() {
+      this.cloneList = this.newsList
       this.$router
         .push({
           name: "news-list",
