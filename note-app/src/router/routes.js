@@ -41,6 +41,7 @@ const router = new VueRouter({
         },
       ],
     },
+    //! Post route
     {
       path: "/post",
       component: () => import("@/layouts/BaseLayout.vue"),
@@ -49,6 +50,14 @@ const router = new VueRouter({
           path: "list",
           name: "post-list",
           component: () => import("@/pages/posts/List.vue"),
+          meta: {
+            isAuth: true
+          },
+        },
+        {
+          path: "detail/:id",
+          name: "post-detail",
+          component: () => import("@/pages/posts/Detail.vue"),
           meta: {
             isAuth: true
           },

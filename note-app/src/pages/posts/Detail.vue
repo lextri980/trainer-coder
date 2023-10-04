@@ -1,13 +1,12 @@
 <template>
-  <div class='base-layout-container'>
-    <h2>Navbar</h2>
-    <router-view></router-view>
+  <div class='post-detail-container'>
+    <h1>Post detail</h1>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'BaseLayoutVue',
+  name: 'PostDetailVue',
   props: {},
   components: {},
   data() {
