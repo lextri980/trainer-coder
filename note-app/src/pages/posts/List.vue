@@ -1,7 +1,7 @@
 <template>
   <div class="posts-list-container">
     <h1>Post</h1>
-    <button class="create-btn">Create</button>
+    <b-button class="create-btn" @click="openModal(false)">Create</b-button>
     <table>
       <thead>
         <th>No.</th>
@@ -35,25 +35,65 @@
           <td>{{ item.publishedAt }}</td>
           <td>
             <div class="action-btn-group">
-              <button>Update</button>
-              <button>Delete</button>
+              <button @click.stop="openModal(true, item)">Update</button>
+              <button @click.stop="openDeleteModal(item)">Delete</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <b-modal
+      v-model="createModal"
+      :title="isUpdate ? 'Update' : 'Create'"
+      ok-title="Submit"
+      @ok="submit(isUpdate ? true : false)"
+    >
+      <b-form-group label="Title">
+        <b-form-input type="text" v-model="form.title" />
+      </b-form-group>
+      <b-form-group label="Content">
+        <b-form-input type="text" v-model="form.content" />
+      </b-form-group>
+      <b-form-group label="Category">
+        <b-form-input type="text" v-model="form.category" />
+      </b-form-group>
+      <b-form-group label="Status">
+        <b-form-input type="text" v-model="form.status" />
+      </b-form-group>
+    </b-modal>
+
+    <b-modal
+      v-model="deleteModal"
+      title="Delete"
+      ok-title="Submit"
+      @ok="deletePost"
+    >
+      <p>Are you sure?</p>
+    </b-modal>
   </div>
 </template>
 
 <script>
-import { apiService } from "@/services/apiService";
+import apiService from "@/services/apiService";
 export default {
   name: "PostListVue",
   props: {},
   components: {},
   data() {
     return {
+      createModal: false,
+      deleteModal: false,
       postList: [],
+      isUpdate: false,
+      form: {
+        id: "",
+        title: "",
+        content: "",
+        category: "",
+        status: "",
+        publishedAt: new Date(),
+      },
     };
   },
   async mounted() {
@@ -77,13 +117,71 @@ export default {
       try {
         const response = await apiService.get("/posts");
         this.postList = response.data;
-        console.log(this.postList);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    openDeleteModal(item) {
+      this.deleteModal = true;
+      this.form = item;
+    },
+    async deletePost() {
+      try {
+        const response = await apiService.delete(`/posts/${this.form.id}`);
+        this.postList = this.postList.filter(
+          (item) => item.id !== response.data.id
+        );
+        this.getPostAsyncAwait()
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    submit(isUpdate) {
+      if (isUpdate) {
+        this.updatePost();
+      } else {
+        this.createPost();
+      }
+    },
+    async createPost() {
+      const bodyData = {
+        ...this.form,
+        id: Math.random(1000000000000),
+      };
+      try {
+        const response = await apiService.post("/posts", bodyData);
+        if (response.status === 201) {
+          this.postList.unshift(response.data);
+        }
       } catch (error) {
         console.log(error);
       }
     },
     goDetail(id) {
       this.$router.push({ name: "post-detail", params: { id } });
+    },
+    async getPostDetail(id) {
+      try {
+        const response = await apiService.get(`/posts/${id}`);
+        this.form = response.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    openModal(isUpdate, item) {
+      if (isUpdate) {
+        this.isUpdate = isUpdate;
+        this.getPostDetail(item.id);
+      }
+      this.createModal = true;
+    },
+    async updatePost() {
+      try {
+        const response = await apiService.patch(`/posts/${this.form.id}`);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const apiService = axios.create({
+const apiService = axios.create({
   baseURL: "https://jsonplaceholder.org",
   timeout: 90000,
 });
+
+export default apiService
