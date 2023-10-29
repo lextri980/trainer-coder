@@ -2,8 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from "@/router/routes";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import { setInteractionMode } from "vee-validate";
 
 Vue.config.productionTip = false
+setInteractionMode("passive");
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
