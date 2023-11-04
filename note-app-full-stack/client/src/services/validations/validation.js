@@ -23,7 +23,7 @@ import {
   validatorPositive,
   validatorUrlValidator,
   validatorYearBorn,
-} from "./validators";
+} from "./validator";
 
 // ////////////////////////////////////////////////////////
 // General
@@ -90,12 +90,7 @@ export const url = extend("url", {
 localize({
   vi: {
     messages: vi.messages,
-    names: {
-      password: "mật khẩu",
-      ["confirm-password"]: "Xác nhận mật khẩu",
-      phone: "số điện thoại",
-      fullname: "họ và tên",
-    },
+    names: {},
   },
 });
 //Load language all page is Vietnamese

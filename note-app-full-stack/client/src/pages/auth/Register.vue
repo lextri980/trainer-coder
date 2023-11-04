@@ -3,46 +3,106 @@
     <div class="register-card">
       <h3>Register</h3>
       <div class="form-section">
-        <b-form-group label="Username">
-          <b-form-input v-model="formData.username"></b-form-input>
-        </b-form-group>
-        <b-form-group label="Name">
-          <b-form-input v-model="formData.name"></b-form-input>
-        </b-form-group>
-        <b-form-group label="Password">
-          <b-form-input v-model="formData.password" type="password"></b-form-input>
-        </b-form-group>
-        <b-form-group label="Confirm password">
-          <b-form-input v-model="formData.confirmPassword" type="password"></b-form-input>
-        </b-form-group>
+        <ValidationObserver tag="form" ref="register-form">
+          <ValidationProvider
+            rules="required|email"
+            #default="{ errors }"
+            name="Tên đăng nhập"
+          >
+            <b-form-group label="Tên đăng nhập">
+              <b-form-input v-model="formData.username"></b-form-input>
+              <small class="error">{{ errors[0] }}</small>
+            </b-form-group>
+          </ValidationProvider>
+
+          <ValidationProvider rules="required" #default="{ errors }" name="Tên">
+            <b-form-group label="Tên">
+              <b-form-input v-model="formData.name"></b-form-input>
+              <small class="error">{{ errors[0] }}</small>
+            </b-form-group>
+          </ValidationProvider>
+
+          <ValidationProvider
+            rules="required"
+            #default="{ errors }"
+            name="Mật khẩu"
+          >
+            <b-form-group label="Mật khẩu">
+              <b-form-input
+                v-model="formData.password"
+                type="password"
+              ></b-form-input>
+              <small class="error">{{ errors[0] }}</small>
+            </b-form-group>
+          </ValidationProvider>
+
+          <ValidationProvider
+            rules="required|confirmed:Mật khẩu"
+            #default="{ errors }"
+            name="Xác nhận mật khẩu"
+          >
+            <b-form-group label="Xác nhận mật khẩu">
+              <b-form-input
+                v-model="formData.confirmPassword"
+                type="password"
+              ></b-form-input>
+              <small class="error">{{ errors[0] }}</small>
+            </b-form-group>
+          </ValidationProvider>
+        </ValidationObserver>
       </div>
       <div class="group-btn">
-        <b-button variant="success" @click="register">Register</b-button>
-        <router-link to="/login">Login</router-link>
+        <b-button variant="success" @click="validateRegister"
+          >Register</b-button
+        >
+        <router-link to="/auth/login">Login</router-link>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { ValidationObserver, ValidationProvider } from "vee-validate";
+import { required, confirmed, email } from "@validations";
+import apiService from "@/services/apiService";
+
 export default {
   name: "RegisterVue",
   props: {},
-  components: {},
+  components: {
+    ValidationObserver,
+    ValidationProvider,
+  },
   data() {
     return {
+      required,
+      confirmed,
+      email,
       formData: {
         username: "",
         name: "",
         password: "",
-        confirmPassword: ""
-      }
+        confirmPassword: "",
+      },
     };
   },
   methods: {
+    /* <!--@--> (validateRegister): Validate ------------------------------------------------------------------------- */
+    async validateRegister() {
+      const valid = await this.$refs["register-form"].validate();
+      if (valid) {
+        this.register();
+      }
+    },
     /* <!--!--> Fetch: POST /auth/register (register): Register ------------------------------------------------------------------------- */
-    async register () {
-      console.log(this.formData)
+    async register() {
+      try {
+        const response = await apiService.post("/auth/register", this.formData);
+        this.$toast.success(response.data.message);
+        this.$router.push({ name: "login" });
+      } catch (error) {
+        this.$toast.error(error.response.data.message);
+      }
     },
   },
 };
