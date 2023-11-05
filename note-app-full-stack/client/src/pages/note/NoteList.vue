@@ -18,12 +18,11 @@ export default {
     /* <!--!--> Fetch: GET /note/list (getNoteList): Get note list ------------------------------------------------------------------------- */
     async getNoteList() {
       try {
-        console.log(localStorage["token"])
         const response = await apiService.get("/note/list")
         console.log('response', response)
       } catch (error) {
-        console.log(error)
-        // this.$toast.error(error)
+        // console.log('error', error)
+        this.$toast.error(error)
       }
     },
   },  
