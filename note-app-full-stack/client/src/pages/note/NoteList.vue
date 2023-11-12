@@ -22,6 +22,7 @@
             width="20"
             height="20"
             class="pointer"
+            @click="openPostModal(true, item)"
           />
           <img
             :src="deleteIcon"
@@ -51,16 +52,20 @@
     </div>
     <!-- </div> -->
 
-    <b-button variant="primary" class="add-note-btn" @click="addModal = true"
+    <b-button
+      variant="primary"
+      class="add-note-btn"
+      @click="openPostModal(false)"
       >Create</b-button
     >
 
     <b-modal
-      v-model="addModal"
-      title="Create new note"
+      v-model="postModal"
+      :title="isUpdate === true ? 'Update note' : 'Create new note'"
       centered
-      ok-title="Create"
+      :ok-title="isUpdate ? 'Update' : 'Create'"
       @ok="validateCreateNote"
+      @hidden="closePostModal"
     >
       <ValidationObserver tag="form" ref="create-form">
         <ValidationProvider rules="required" #default="{ errors }" name="Title">
@@ -119,8 +124,9 @@ export default {
       required,
       deleteIcon,
       updateIcon,
-      addModal: false,
+      postModal: false,
       noteList: [],
+      note: {},
       createForm: {
         title: "",
         content: "",
@@ -131,18 +137,47 @@ export default {
         { value: "HIGHLIGHT", text: "Highlight" },
         { value: "NORMAL", text: "Normal" },
       ],
+      isUpdate: false,
     };
   },
   mounted() {
     this.getNoteList();
   },
   methods: {
+    /* <!--@--> (closePostModal): Close post modal ------------------------------------------------------------------------- */
+    closePostModal() {
+      this.postModal = false
+      this.resetForm()
+    },
+    /* <!--@--> (resetForm): Reset form data ------------------------------------------------------------------------- */
+    resetForm() {
+      this.isUpdate = false
+      this.note = {}
+      this.createForm = {
+        _id: "",
+        title: "",
+        content: "",
+        status: "",
+      };
+    },
+    /* <!--@--> (openPostModal): Open create & update modal ------------------------------------------------------------------------- */
+    openPostModal(isUpdate = false, item) {
+      this.isUpdate = isUpdate;
+      if (this.isUpdate) {
+        this.getNoteDetail(item._id);
+      }
+      this.postModal = true;
+    },
     /* <!--@--> (validateCreateNote): Validate ------------------------------------------------------------------------- */
     async validateCreateNote(e) {
       e.preventDefault();
       const valid = await this.$refs["create-form"].validate();
       if (valid) {
-        this.createNote();
+        if(this.isUpdate) {
+          this.updateNote()
+        } else {
+          this.createNote();
+        }
       }
     },
     /* <!--!--> Fetch: GET /note/list (getNoteList): Get note list ------------------------------------------------------------------------- */
@@ -154,18 +189,34 @@ export default {
         this.$toast.error(error);
       }
     },
+    /* <!--!--> Fetch: GET /note/detail/:id (getNoteDetail): Get note detail ------------------------------------------------------------------------- */
+    async getNoteDetail(id) {
+      try {
+        const response = await apiService.get(`note/detail/${id}`);
+        this.createForm = response.data.note;
+        this.note = response.data.note
+      } catch (error) {
+        this.$toast.error(error);
+      }
+    },
     /* <!--!--> Fetch: POST /note-create (createNote): Create note ------------------------------------------------------------------------- */
     async createNote() {
       try {
         const response = await apiService.post("/note/create", this.createForm);
         this.$toast.success(response.data.message);
-        this.addModal = false;
-        this.createForm = {
-          title: "",
-          content: "",
-          status: "",
-        };
-        this.getNoteList()
+        this.closePostModal();
+        this.getNoteList();
+      } catch (error) {
+        this.$toast.error(error);
+      }
+    },
+    /* <!--!--> Fetch: PUT /note/update/:id (updateNote): Update note ------------------------------------------------------------------------- */
+    async updateNote() {
+      try {
+        const response = await apiService.put(`/note/update/${this.note._id}`, this.createForm)
+        this.$toast.success(response.data.message);
+        this.closePostModal()
+        this.getNoteList();
       } catch (error) {
         this.$toast.error(error);
       }

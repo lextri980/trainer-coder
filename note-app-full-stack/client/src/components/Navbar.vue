@@ -6,18 +6,12 @@
       <router-link class="vue-link" to="#">Link card</router-link>
     </div>
     <div class="user-info">
-      <b-dropdown
-        size="lg"
-        variant="link"
-        toggle-class="text-decoration-none"
-        no-caret
-      >
+      <b-dropdown size="lg" toggle-class="text-decoration-none" no-caret right>
         <template #button-content>
           <b-avatar variant="primary" text="BV" class="mr-3"></b-avatar>
         </template>
-        <b-dropdown-item href="#">Action</b-dropdown-item>
-        <b-dropdown-item href="#">Another action</b-dropdown-item>
-        <b-dropdown-item href="#">Something else here...</b-dropdown-item>
+        <b-dropdown-item>Profile</b-dropdown-item>
+        <b-dropdown-item @click="logout">Logout</b-dropdown-item>
       </b-dropdown>
     </div>
   </div>
@@ -33,10 +27,13 @@ export default {
       logo,
     };
   },
-  mounted() {
-    console.log(this.$store.state.auth.isAuthenticated);
+  methods: {
+    /* <!--@--> (logout): Logout ------------------------------------------------------------------------- */
+    logout() {
+      localStorage.removeItem("token");
+      this.$router.push({ name: "login" });
+    },
   },
-  methods: {},
 };
 </script>
 
