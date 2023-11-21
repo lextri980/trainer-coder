@@ -1,14 +1,13 @@
 <template>
-  <div class="note-list-container">
-    <!-- <div class="note-wrapper" > -->
+  <div class="link-card-container">
     <div
-      class="note-card"
-      v-for="(item, index) in noteList"
+      class="link-card"
+      v-for="(item, index) in linkList"
       :key="index"
       :class="
-        item.status === 'IMPORTANT'
+        item.status === 'TO LEARN'
           ? 'border-danger'
-          : item.status === 'HIGHLIGHT'
+          : item.status === 'LEARNING'
           ? 'border-warn'
           : 'border-success'
       "
@@ -39,9 +38,9 @@
           class="badge-item"
           pill
           :variant="
-            item.status === 'IMPORTANT'
+            item.status === 'TO LEARN'
               ? 'danger'
-              : item.status === 'HIGHLIGHT'
+              : item.status === 'LEARNING'
               ? 'warning'
               : 'success'
           "
@@ -52,42 +51,32 @@
       <div class="content">{{ item.content }}</div>
     </div>
 
-    <p v-for="(item) in 2"
-      :key="item ">{{ noteList[item - 1].content }}</p>
-    <!-- </div> -->
-
     <b-button
       variant="primary"
-      class="add-note-btn"
-      @click="openPostModal(false)"
+      class="add-link-btn"
+      @click="openPostModal(true)"
       >Create</b-button
     >
 
     <b-modal
       v-model="postModal"
-      :title="isUpdate === true ? 'Update note' : 'Create new note'"
+      :title="isUpdate === true ? 'Update link card' : 'Create new link card'"
       centered
       :ok-title="isUpdate ? 'Update' : 'Create'"
       @ok="validateCreateNote"
       @hidden="closePostModal"
     >
       <ValidationObserver tag="form" ref="create-form">
+          
         <ValidationProvider rules="required" #default="{ errors }" name="Title">
           <b-form-group label="Title">
             <b-form-input v-model="createForm.title"></b-form-input>
             <small class="error">{{ errors[0] }}</small>
           </b-form-group>
         </ValidationProvider>
-        <ValidationProvider
-          rules="required"
-          #default="{ errors }"
-          name="Content"
-        >
-          <b-form-group label="Content">
-            <b-form-textarea
-              rows="4"
-              v-model="createForm.content"
-            ></b-form-textarea>
+        <ValidationProvider rules="required" #default="{ errors }" name="Url">
+          <b-form-group label="Url">
+            <b-form-input v-model="createForm.url"></b-form-input>
             <small class="error">{{ errors[0] }}</small>
           </b-form-group>
         </ValidationProvider>
@@ -95,6 +84,7 @@
           rules="required"
           #default="{ errors }"
           name="Status"
+          v-if="isUpdate"
         >
           <b-form-group label="Status">
             <b-form-select
@@ -106,29 +96,18 @@
         </ValidationProvider>
       </ValidationObserver>
     </b-modal>
-
-    <b-modal
-      v-model="deleteModal"
-      title="Delete note"
-      centered
-      ok-title="Delete"
-      @ok="deleteNote"
-      @hidden="closePostModal"
-    >
-      Are you sure?
-    </b-modal>
   </div>
 </template>
 
 <script>
 import apiService from "@/services/apiService";
 import { ValidationObserver, ValidationProvider } from "vee-validate";
-import { required } from "@validations";
 import deleteIcon from "@/assets/icon/delete.png";
 import updateIcon from "@/assets/icon/update.png";
+import { required } from "@validations";
 
 export default {
-  name: "NoteListVue",
+  name: "LinkCardVue",
   props: {},
   components: {
     ValidationObserver,
@@ -141,19 +120,19 @@ export default {
       updateIcon,
       postModal: false,
       deleteModal: false,
-      noteList: [],
-      note: {},
+      link: {},
+      isUpdate: false,
       createForm: {
         title: "",
         content: "",
         status: "",
       },
       options: [
-        { value: "IMPORTANT", text: "Important" },
-        { value: "HIGHLIGHT", text: "Highlight" },
-        { value: "NORMAL", text: "Normal" },
+        { value: "TO LEARN", text: "To learn" },
+        { value: "LEARNING", text: "Learning" },
+        { value: "LEARNED", text: "Learned" },
       ],
-      isUpdate: false,
+      linkList: [],
     };
   },
   mounted() {
@@ -162,33 +141,29 @@ export default {
   methods: {
     /* <!--@--> (closePostModal): Close post modal ------------------------------------------------------------------------- */
     closePostModal() {
-      this.deleteModal = false
-      this.postModal = false;  
+      this.deleteModal = false;
+      this.postModal = false;
       this.resetForm();
     },
     /* <!--@--> (resetForm): Reset form data ------------------------------------------------------------------------- */
     resetForm() {
       this.isUpdate = false;
-      this.note = {};
+      this.link = {};
       this.createForm = {
         _id: "",
         title: "",
-        content: "",
+        url: "",
         status: "",
       };
     },
     /* <!--@--> (openPostModal): Open create & update modal ------------------------------------------------------------------------- */
     openPostModal(isUpdate = false, item) {
-      this.isUpdate = isUpdate;
-      if (this.isUpdate) {
-        this.getNoteDetail(item._id);
-      }
+      // this.isUpdate = isUpdate;
+      // if (this.isUpdate) {
+      //   this.getNoteDetail(item._id);
+      // }
+      console.log(isUpdate, item);
       this.postModal = true;
-    },
-    /* <!--@--> (openDeleteModal): Open delete modal ------------------------------------------------------------------------- */
-    openDeleteModal(item) {
-      this.getNoteDetail(item._id);
-      this.deleteModal = true;
     },
     /* <!--@--> (validateCreateNote): Validate ------------------------------------------------------------------------- */
     async validateCreateNote(e) {
@@ -202,55 +177,23 @@ export default {
         }
       }
     },
-    /* <!--!--> Fetch: GET /note/list (getNoteList): Get note list ------------------------------------------------------------------------- */
+    /* <!--!--> Fetch: GET /linkcard/list (getNoteList): Get linkcard list ------------------------------------------------------------------------- */
     async getNoteList() {
       try {
-        const response = await apiService.get("/note/list");
-        this.noteList = response.data.notes;
+        const response = await apiService.get("/linkcard/list");
+        this.linkList = response.data.linkcards;
       } catch (error) {
         this.$toast.error(error);
       }
     },
-    /* <!--!--> Fetch: GET /note/detail/:id (getNoteDetail): Get note detail ------------------------------------------------------------------------- */
-    async getNoteDetail(id) {
-      try {
-        const response = await apiService.get(`note/detail/${id}`);
-        this.createForm = response.data.note;
-        this.note = response.data.note;
-      } catch (error) {
-        this.$toast.error(error);
-      }
-    },
-    /* <!--!--> Fetch: POST /note-create (createNote): Create note ------------------------------------------------------------------------- */
+    /* <!--!--> Fetch: POST /linkcard-create (createNote): Create linkcard ------------------------------------------------------------------------- */
     async createNote() {
       try {
-        const response = await apiService.post("/note/create", this.createForm);
-        this.$toast.success(response.data.message);
-        this.closePostModal();
-        this.getNoteList();
-      } catch (error) {
-        this.$toast.error(error);
-      }
-    },
-    /* <!--!--> Fetch: PUT /note/update/:id (updateNote): Update note ------------------------------------------------------------------------- */
-    async updateNote() {
-      try {
-        const response = await apiService.put(
-          `/note/update/${this.note._id}`,
+        const response = await apiService.post(
+          "/linkcard/create",
           this.createForm
         );
         this.$toast.success(response.data.message);
-        this.closePostModal();
-        this.getNoteList();
-      } catch (error) {
-        this.$toast.error(error);
-      }
-    },
-    /* <!--!--> Fetch: DELETE /note/delete/:id (deleteNote): Delete note ------------------------------------------------------------------------- */
-    async deleteNote() {
-      try {
-        const response = await apiService.delete(`/note/delete/${this.createForm._id}`)
-        this.$toast.success = response.data.message
         this.closePostModal();
         this.getNoteList();
       } catch (error) {
@@ -262,14 +205,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.note-list-container {
+.link-card-container {
   width: 100%;
   height: 100%;
   padding: 20px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px 5%;
-  .note-card {
+  .link-card {
     width: 30%;
     background-color: white;
     border-radius: 4px;
@@ -296,7 +239,7 @@ export default {
       font-size: 10px;
     }
   }
-  .add-note-btn {
+  .add-link-btn {
     position: fixed;
     bottom: 20px;
     right: 20px;

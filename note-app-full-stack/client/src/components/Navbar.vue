@@ -3,14 +3,14 @@
     <div class="nav-menu">
       <img :src="logo" alt="logo" width="30" height="30" />
       <router-link class="vue-link" to="/note/list">Note</router-link>
-      <router-link class="vue-link" to="#">Link card</router-link>
+      <router-link class="vue-link" to="/link-card/list">Link card</router-link>
     </div>
     <div class="user-info">
       <b-dropdown size="lg" toggle-class="text-decoration-none" no-caret right>
         <template #button-content>
           <b-avatar variant="primary" text="BV" class="mr-3"></b-avatar>
         </template>
-        <b-dropdown-item>Profile</b-dropdown-item>
+        <b-dropdown-item to="/profile">Profile</b-dropdown-item>
         <b-dropdown-item @click="logout">Logout</b-dropdown-item>
       </b-dropdown>
     </div>
