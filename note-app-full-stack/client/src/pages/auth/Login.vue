@@ -70,13 +70,16 @@ export default {
     },
     /* <!--!--> Fetch: POST /auth/login (login): Login ------------------------------------------------------------------------- */
     async login() {
+      this.startLoading();
       try {
         const response = await apiService.post("/auth/login", this.formData);
         this.$toast.success(response.data.message);
-        localStorage.setItem('token', response.data.accessToken)
+        localStorage.setItem("token", response.data.accessToken);
         this.$router.push({ name: "note-list" });
       } catch (error) {
         this.$toast.error(error.response.data.message);
+      } finally {
+        this.endLoading();
       }
     },
   },

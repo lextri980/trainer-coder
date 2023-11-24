@@ -49,12 +49,9 @@
           {{ item.status }}
         </b-badge>
       </div>
-      <div class="content">{{ item.content }}</div>
+      <div class="content">{{ item?.content }}</div>
     </div>
 
-    <p v-for="(item) in 2"
-      :key="item ">{{ noteList[item - 1].content }}</p>
-    <!-- </div> -->
 
     <b-button
       variant="primary"
@@ -204,11 +201,14 @@ export default {
     },
     /* <!--!--> Fetch: GET /note/list (getNoteList): Get note list ------------------------------------------------------------------------- */
     async getNoteList() {
+      this.startLoading()
       try {
         const response = await apiService.get("/note/list");
         this.noteList = response.data.notes;
       } catch (error) {
         this.$toast.error(error);
+      } finally {
+        this.endLoading()
       }
     },
     /* <!--!--> Fetch: GET /note/detail/:id (getNoteDetail): Get note detail ------------------------------------------------------------------------- */

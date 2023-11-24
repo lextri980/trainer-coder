@@ -5,6 +5,7 @@ import { setInteractionMode } from "vee-validate";
 import Vue from "vue";
 import Toast from "vue-toastification";
 import App from "./App.vue";
+import { globalMixin } from "./mixin";
 
 Vue.config.productionTip = false;
 setInteractionMode("passive");
@@ -23,6 +24,7 @@ Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
 Vue.use(Toast, options);
+Vue.mixin(globalMixin)
 
 router.beforeEach((to, _, next) => {
   const localToken = localStorage.getItem("token");

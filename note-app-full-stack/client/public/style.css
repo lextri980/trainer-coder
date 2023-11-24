@@ -4,7 +4,7 @@
   background-color: rgba(214, 214, 214, 0.5);
   position: fixed;
   z-index: 999999999999;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   overflow: hidden;
