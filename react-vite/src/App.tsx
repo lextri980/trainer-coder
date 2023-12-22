@@ -1,38 +1,11 @@
-import { useState } from "react";
 import "./assets/scss/App.scss";
+import { useRoutes } from "react-router-dom";
+import routes from "./router/routes";
 
 function App() {
-  const [count, setCount] = useState<number>(0);
-  const todoList = [
-    { title: "A", status: "todo" },
-    { title: "B", status: "Done" },
-  ];
-  // const [string, setString] = useState('');
+  const router = useRoutes(routes);
 
-  // let a: number = 0;
-
-  const countUp = () => {
-    setCount(count + 1);
-  };
-
-  console.log("re-render");
-
-  return (
-    <div className="app-container">
-      <button onClick={countUp}>Up</button>
-      {count}
-      <p>{count % 2 === 0 ? "Even" : "Odd"}</p>
-
-      {count % 2 === 0 ? <p>Even</p> : <p>Odd</p>}
-
-      {todoList.map((item, index) => (
-        <div className="list" key={index}>
-          <span>{item.title} - </span>
-          <span>{item.status}</span>
-        </div>
-      ))}
-    </div>
-  );
+  return <div className="app-container">{router}</div>;
 }
 
 export default App;
