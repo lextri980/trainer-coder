@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import styled from "styled-components";
 
 export const TodoContainer = styled.div`
@@ -11,6 +12,9 @@ export const TodoContainer = styled.div`
   }
   .todo-list {
     min-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     .single-todo {
       display: flex;
       justify-content: space-between;
@@ -24,4 +28,8 @@ export const TodoContainer = styled.div`
       min-width: 20px;
     }
   }
+`;
+
+export const TextFieldStyle = styled(TextField)`
+  width: 100%;
 `;
