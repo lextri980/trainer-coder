@@ -24,6 +24,10 @@ export default function Dashboard() {
     setCount2(count2 + 1);
   };
 
+  const goTodo = () => {
+    navigate("/todo/list")
+  }
+
   return (
     <div>
       <p>{count}</p>
@@ -32,7 +36,7 @@ export default function Dashboard() {
       <button onClick={countUp2}>Up 2</button>
       <div className="group-btn">
         <button onClick={() => navigate("/auth")}>Go</button>
-        <button onClick={() => navigate("/todo")}>Todo</button>
+        <button onClick={goTodo}>Todo</button>
       </div>
     </div>
   );

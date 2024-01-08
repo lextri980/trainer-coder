@@ -5,8 +5,10 @@ import { ChangeEvent, useId, useState } from "react";
 import { ITodo } from "./interface";
 import { TextFieldStyle, TodoContainer } from "./style";
 import { Dialog } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 export default function Todo() {
+  const navigate = useNavigate();
   const id = useId();
   const [formData, setFormData] = useState<ITodo>({
     id,
@@ -26,14 +28,18 @@ export default function Todo() {
     },
   ]);
   const [updateModal, setUpdateModal] = useState<boolean>(false);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   /**
    * Handle change todo input
    * @params
    * @return void
    */
-  const onChangeTodo = (e: ChangeEvent<HTMLInputElement>, isUpdate: boolean = false) => {
-    if(isUpdate) {
+  const onChangeTodo = (
+    e: ChangeEvent<HTMLInputElement>,
+    isUpdate: boolean = false
+  ) => {
+    if (isUpdate) {
       setFormData({
         ...formData,
         [e.target?.name]: e.target?.value,
@@ -96,19 +102,51 @@ export default function Todo() {
    * @return void
    */
   const updateTodo = () => {
-    const updateData = todo.map(item => {
-      if(item.id === formData.id) {
+    const updateData = todo.map((item) => {
+      if (item.id === formData.id) {
         return {
           ...formData,
-          todo: formData.todo
-        }
+          todo: formData.todo,
+        };
       } else {
-        return item
+        return item;
       }
-    })
-    setTodo(updateData)
-    closeUpdateDialog()
-  }
+    });
+    setTodo(updateData);
+    closeUpdateDialog();
+  };
+
+  /**
+   * Handle open delete dialog
+   * @params
+   * @return void
+   */
+  const openDeleteDialog = (id: string | number) => {
+    const deletedItem = todo.find((item) => {
+      return item.id === id;
+    });
+    if (deletedItem) {
+      setFormData(deletedItem);
+    }
+    setDeleteModal(true);
+  };
+
+  const deleteTodo = () => {
+    const deleteData = todo.filter((item) => {
+      return item.id !== formData.id;
+    });
+    setTodo(deleteData);
+    setDeleteModal(false);
+    setFormData({
+      id,
+      todo: "",
+      isEdit: false,
+    });
+  };
+
+  const goDetail = (id: string | number) => {
+    navigate(`/todo/${id}?key1=value1&key2=value2`);
+  };
 
   return (
     <TodoContainer>
@@ -132,14 +170,17 @@ export default function Todo() {
           <div className="single-todo" key={index}>
             <div className="content">
               <span className="todo-no">{index + 1}.</span>
-              <span>{item.todo}</span>
+              <span onClick={() => goDetail(item.id)}>{item.todo}</span>
             </div>
             <div className="action-btn-group">
               <ModeEditOutlineOutlinedIcon
                 className="warning pointer"
                 onClick={() => openUpdateDialog(item.id)}
               />
-              <DeleteOutlineOutlinedIcon className="error pointer" />
+              <DeleteOutlineOutlinedIcon
+                className="error pointer"
+                onClick={() => openDeleteDialog(item.id)}
+              />
             </div>
           </div>
         ))}
@@ -147,7 +188,7 @@ export default function Todo() {
 
       <Dialog
         open={updateModal}
-        title="Update modal"
+        title="Update todo"
         submitBtn="Update"
         onCancel={closeUpdateDialog}
         onSubmit={updateTodo}
@@ -159,6 +200,16 @@ export default function Todo() {
           value={formData.todo}
           onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeTodo(e, true)}
         ></TextFieldStyle>
+      </Dialog>
+
+      <Dialog
+        open={deleteModal}
+        title="Delete todo"
+        submitBtn="Delete"
+        onCancel={() => setDeleteModal(false)}
+        onSubmit={deleteTodo}
+      >
+        <p>Are you sure to delete this todo?</p>
       </Dialog>
     </TodoContainer>
   );
