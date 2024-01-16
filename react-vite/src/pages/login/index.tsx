@@ -15,7 +15,6 @@ export default function Login() {
   }
 
   const submit = () => {
-  
   }
 
   return (
@@ -25,6 +24,7 @@ export default function Login() {
       <p>Last name</p>
       <input name="lastName" value={name.lastName} type="text" onChange={onChangeInput} />
       <button onClick={submit}>Submit</button>
+      {/* <button onClick={<Link></Link>}>Submit</button> */}
     </LoginContainer>
   )
 }

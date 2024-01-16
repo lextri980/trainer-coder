@@ -8,13 +8,11 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log("useEffect run");
-  }, [count, count2]);
-
-  useEffect(() => {
     return () => {
-      console.log("destroy");
-    };
-  }, []);
+      //Cleaning
+      console.log('first')
+    }
+  }, [count]);
 
   const countUp = () => {
     setCount(count + 1);

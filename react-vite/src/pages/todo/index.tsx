@@ -1,14 +1,16 @@
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import { Button, TextField } from "@mui/material";
-import { ChangeEvent, useId, useState } from "react";
+import { ChangeEvent, useContext, useId, useState } from "react";
 import { ITodo } from "./interface";
 import { TextFieldStyle, TodoContainer } from "./style";
 import { Dialog } from "../../components";
 import { useNavigate } from "react-router-dom";
+import { SetAuthContext } from "@/contexts";
 
 export default function Todo() {
   const navigate = useNavigate();
+  const authContext = useContext(SetAuthContext)
   const id = useId();
   const [formData, setFormData] = useState<ITodo>({
     id,
@@ -29,6 +31,8 @@ export default function Todo() {
   ]);
   const [updateModal, setUpdateModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
+
+  console.log(authContext)
 
   /**
    * Handle change todo input

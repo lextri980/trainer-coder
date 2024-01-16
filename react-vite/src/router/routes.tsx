@@ -4,10 +4,11 @@ import Todo from "@/pages/todo";
 import DetailTodo from "@/pages/detailTodo";
 import MainLayout from "@/layouts/MainLayout";
 import BaseLayout from "@/layouts/BaseLayout";
+import ProtectedRouter from "./ProtectedRouter";
 
 const routes = [
   {
-    path: "/auth",
+    path: "/login",
     element: <Login />,
   },
   {
@@ -19,18 +20,18 @@ const routes = [
     element: <MainLayout />,
     children: [
       {
-        path: 'todo',
+        path: "todo",
         element: <BaseLayout />,
         children: [
           {
-            path: 'list',
-            element: <Todo />
+            path: "list",
+            element: <Todo />,
           },
           {
-            path: ':id',
-            element: <DetailTodo />
-          }
-        ]
+            path: ":id",
+            element: <ProtectedRouter component={DetailTodo} />,
+          },
+        ],
       },
     ],
   },
