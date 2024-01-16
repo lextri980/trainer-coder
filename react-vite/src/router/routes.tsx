@@ -1,4 +1,5 @@
 import Login from "@/pages/login";
+import Posts from "@/pages/posts";
 import Dashboard from "@/pages/dashboard";
 import Todo from "@/pages/todo";
 import DetailTodo from "@/pages/detailTodo";
@@ -30,6 +31,16 @@ const routes = [
           {
             path: ":id",
             element: <ProtectedRouter component={DetailTodo} />,
+          },
+        ],
+      },
+      {
+        path: "post",
+        element: <BaseLayout />,
+        children: [
+          {
+            path: "list",
+            element: <Posts />,
           },
         ],
       },
