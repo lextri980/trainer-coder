@@ -36,6 +36,7 @@ export default function Dashboard() {
         <button onClick={() => navigate("/auth")}>Go</button>
         <button onClick={goTodo}>Todo</button>
         <button onClick={() => navigate("/post/list")}>Post list</button>
+        <button onClick={() => navigate("/react-hook-form")}>React hook form</button>
       </div>
     </div>
   );
