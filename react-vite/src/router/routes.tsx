@@ -2,6 +2,7 @@ import Login from "@/pages/login";
 import Posts from "@/pages/posts";
 import Dashboard from "@/pages/dashboard";
 import Todo from "@/pages/todo";
+import TodoRedux from "@/pages/todoRedux";
 import DetailTodo from "@/pages/detailTodo";
 import ReactHookForm from "@/pages/reactHookForm";
 import MainLayout from "@/layouts/MainLayout";
@@ -42,6 +43,16 @@ const routes = [
           {
             path: "list",
             element: <Posts />,
+          },
+        ],
+      },
+      {
+        path: "todo-redux",
+        element: <BaseLayout />,
+        children: [
+          {
+            path: "list",
+            element: <TodoRedux />,
           },
         ],
       },

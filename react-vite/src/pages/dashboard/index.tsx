@@ -35,6 +35,7 @@ export default function Dashboard() {
       <div className="group-btn">
         <button onClick={() => navigate("/auth")}>Go</button>
         <button onClick={goTodo}>Todo</button>
+        <button onClick={() => navigate("/todo-redux/list")}>Todo redux</button>
         <button onClick={() => navigate("/post/list")}>Post list</button>
         <button onClick={() => navigate("/react-hook-form")}>React hook form</button>
       </div>

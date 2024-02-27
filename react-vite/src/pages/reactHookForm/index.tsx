@@ -1,15 +1,16 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { IForm, IFormClass } from "./interface";
+import { IForm } from "./interface";
 import { ReactHookFormContainer } from "./style";
-import { useRef } from "react";
 import { TextField } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "./schema";
 
 export default function ReactHookForm() {
-  const inputRef = useRef<HTMLInputElement>(null);
   const nameDefaultValues = {
     firstname: "",
     lastname: "",
   };
+
   const {
     register,
     handleSubmit,
@@ -17,16 +18,9 @@ export default function ReactHookForm() {
     reset,
     getValues,
     formState: { errors },
-  } = useForm<IForm>({
+  } = useForm<any>({
+    resolver: yupResolver(schema),
     defaultValues: nameDefaultValues,
-  });
-
-  const classDefaultValue = {
-    class: "",
-    grade: "",
-  };
-  const { register: classReg, handleSubmit: classHandleSubmit } = useForm<IFormClass>({
-    defaultValues: classDefaultValue,
   });
 
   const getForm = () => {
@@ -38,14 +32,6 @@ export default function ReactHookForm() {
     console.log(data);
   };
 
-  const getRef = () => {
-    console.log(inputRef.current?.value);
-  };
-
-  const submitClass: SubmitHandler<IFormClass> = (data) => {
-    console.log(data);
-  };
-
   return (
     <ReactHookFormContainer>
       <div className="introduce-rhf">
@@ -54,26 +40,17 @@ export default function ReactHookForm() {
           name="firstname"
           render={({ field }) => <TextField {...field} />}
         />
-        {/* <input type="text" {...register("firstname")} /> */}
-        <input type="text" {...register("lastname", { required: true })} />
+        {errors.firstname && (
+          <span className="error">{errors.firstname.message?.toString()}</span>
+        )}
+        <input type="text" {...register("lastname")} />
         {errors.lastname && (
-          <small className="error">This field is required</small>
+          <span className="error">{errors.lastname.message?.toString()}</span>
         )}
         <button onClick={handleSubmit(submitName)} type="submit">
           Submit
         </button>
         <button onClick={getForm}>Get all value</button>
-      </div>
-
-      <div className="uncontrolled-component">
-        <input type="text" ref={inputRef} />
-        <button onClick={getRef}>Get ref</button>
-      </div>
-
-      <div className="class-form">
-        <input type="text" {...classReg("class")} />
-        <input type="text" {...classReg("grade")} />
-        <button onClick={classHandleSubmit(submitClass)}>Class button</button>
       </div>
     </ReactHookFormContainer>
   );
