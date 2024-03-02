@@ -17,6 +17,10 @@ const TodoReducer = createSlice({
       state.loading = true;
       state.todoList.push(action.payload);
     },
+    deleteTodo: (state, action) => {
+      console.log(action.payload)
+      state.todoList = state.todoList.filter((item) => item.id !== action.payload);
+    },
   },
 });
 

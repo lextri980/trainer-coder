@@ -43,6 +43,10 @@ export default function TodoRedux() {
     reset();
   };
 
+  const deleteTodo = (id) => {
+    dispatch(TodoActions.deleteTodo(id));
+  };
+
   return (
     <TodoContainer>
       <div className="todo-form">
@@ -86,6 +90,10 @@ export default function TodoRedux() {
       </div>
       {todoState.todoList.map((item, index) => (
         <div className="todo-list" key={index}>
+          <span className="todo-update">Update</span>
+          <span className="todo-delete" onClick={() => deleteTodo(item.id)}>
+            Delete
+          </span>
           <p>Title: {item.title}</p>
           <p>Content: {item.content}</p>
           <p>Status: {item.status}</p>
