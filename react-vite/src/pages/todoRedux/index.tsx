@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "@/hooks/useRedux";
 import { RootState } from "@/store/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { TodoActions } from "@/store/todoStore/TodoReducer";
 import { TodoContainer } from "./style";
 import { TextField } from "@mui/material";
@@ -8,10 +8,17 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "./schema";
 import { ITodoList } from "@/store/todoStore/interface";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 export default function TodoRedux() {
   const todoState = useAppSelector((state: RootState) => state.todo);
   const dispatch = useAppDispatch();
+  const [updateModal, setUpdateModal] = useState(false);
   const defaultTodo = {
     id: "",
     title: "",
@@ -24,6 +31,17 @@ export default function TodoRedux() {
     handleSubmit,
     reset,
     formState: { errors },
+  } = useForm<ITodoList>({
+    resolver: yupResolver(schema),
+    defaultValues: defaultTodo,
+  });
+
+  const {
+    control: controlUpdate,
+    handleSubmit: handleSubmitUpdate,
+    reset: resetUpdate,
+    setValue: setValueUpdate,
+    formState: { errors: errorsUpdate },
   } = useForm<ITodoList>({
     resolver: yupResolver(schema),
     defaultValues: defaultTodo,
@@ -45,6 +63,20 @@ export default function TodoRedux() {
 
   const deleteTodo = (id) => {
     dispatch(TodoActions.deleteTodo(id));
+  };
+
+  const handleOpenUpdateModal = (data) => {
+    setUpdateModal(true);
+    setValueUpdate("id", data.id);
+    setValueUpdate("title", data.title);
+    setValueUpdate("content", data.content);
+    setValueUpdate("status", data.status);
+  };
+
+  const handleUpdateTodo = (data) => {
+    dispatch(TodoActions.updateTodo(data));
+    setUpdateModal(false)
+    resetUpdate()
   };
 
   return (
@@ -90,7 +122,12 @@ export default function TodoRedux() {
       </div>
       {todoState.todoList.map((item, index) => (
         <div className="todo-list" key={index}>
-          <span className="todo-update">Update</span>
+          <span
+            className="todo-update"
+            onClick={() => handleOpenUpdateModal(item)}
+          >
+            Update
+          </span>
           <span className="todo-delete" onClick={() => deleteTodo(item.id)}>
             Delete
           </span>
@@ -99,6 +136,64 @@ export default function TodoRedux() {
           <p>Status: {item.status}</p>
         </div>
       ))}
+
+      <Dialog open={updateModal} onClose={() => setUpdateModal(true)}>
+        <DialogTitle id="alert-dialog-title">Update Todo</DialogTitle>
+        <DialogContent>
+          <div
+            className="update-form"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              marginTop: "10px",
+            }}
+          >
+            <div className="group-input">
+              <Controller
+                control={controlUpdate}
+                name="title"
+                render={({ field }) => (
+                  <TextField {...field} label="Title" size="small" />
+                )}
+              />
+              <small className="error">
+                {errorsUpdate.title && errorsUpdate.title.message}
+              </small>
+            </div>
+            <div className="group-input">
+              <Controller
+                control={controlUpdate}
+                name="content"
+                render={({ field }) => (
+                  <TextField {...field} label="Content" size="small" />
+                )}
+              />
+              <small className="error">
+                {errorsUpdate.title && errorsUpdate.title.message}
+              </small>
+            </div>
+            <div className="group-input">
+              <Controller
+                control={controlUpdate}
+                name="status"
+                render={({ field }) => (
+                  <TextField {...field} label="Status" size="small" />
+                )}
+              />
+              <small className="error">
+                {errorsUpdate.title && errorsUpdate.title.message}
+              </small>
+            </div>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button color="error" onClick={() => setUpdateModal(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmitUpdate(handleUpdateTodo)}>Update</Button>
+        </DialogActions>
+      </Dialog>
     </TodoContainer>
   );
 }
