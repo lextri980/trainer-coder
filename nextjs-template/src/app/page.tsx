@@ -1,23 +1,40 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { ExampleActions } from "@/store/exampleStore/ExampleReducer";
+import { PostActions } from "@/store/postStore/PostReducer";
 import { useEffect } from "react";
 import { AppContainer } from "./style";
 
 export default function Home() {
-  const exampleState = useAppSelector((state) => state.example);
   const dispatch = useAppDispatch();
-
-  console.log(exampleState);
+  const postState = useAppSelector((state) => state.post);
 
   useEffect(() => {
-    dispatch(ExampleActions.exampleAction("payload"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(PostActions.getPostRequest());
   }, []);
+
+  console.log(postState);
 
   return (
     <AppContainer>
-      <h1>This is my Component</h1>
+      <h1>Post list</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Title</th>
+            <th>Content</th>
+           </tr>
+        </thead>
+        <tbody>
+          {postState.posts.map((item, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
+              <td>{item.title}</td>
+              <td>{item.body}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </AppContainer>
   );
 }

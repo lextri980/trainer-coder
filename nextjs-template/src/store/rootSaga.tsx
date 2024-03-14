@@ -1,9 +1,8 @@
 import { all, fork } from "redux-saga/effects";
-import { exampleWatcher } from "./exampleStore/ExampleSaga";
+import { postWatcher } from "./postStore/PostSaga";
 
 export default function* reduxSaga() {
   yield all([
-    fork(exampleWatcher),
-    // fork(exampleWatcher),
+    fork(postWatcher),
   ]);
 }

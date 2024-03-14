@@ -1,5 +1,5 @@
 import { getCookie, removeManyStorage, setLocal } from "@/utils";
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 
 const apiService = axios.create({
   baseURL: process.env.BASE_URL,
