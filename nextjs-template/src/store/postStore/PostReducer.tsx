@@ -4,6 +4,8 @@ import { IPostState } from "./interface";
 const initialState: IPostState = {
   loading: false,
   posts: [],
+  comments: [],
+  message: "",
 };
 
 const PostReducer = createSlice({
@@ -14,12 +16,23 @@ const PostReducer = createSlice({
       state.loading = true;
     },
     getPostSuccess(state, action) {
-      state.loading = false
-      state.posts = action.payload
+      state.loading = false;
+      state.posts = action.payload;
     },
     getPostFail(state) {
-      state.loading = false
-      state.posts = []
+      state.loading = false;
+      state.posts = [];
+    },
+    getCommentRequest(state) {
+      state.loading = true;
+    },
+    getCommentSuccess(state, action) {
+      state.loading = false;
+      state.comments = action.payload
+    },
+    getCommentFail(state, action) {
+      state.loading = false;
+      state.message = action.payload
     },
   },
 });

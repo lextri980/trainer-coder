@@ -1,6 +1,8 @@
 export interface IPostState {
-  loading: boolean,
+  loading: boolean;
   posts: IPost[];
+  comments: IComment[];
+  message: string;
 }
 
 export interface IPost {
@@ -8,4 +10,12 @@ export interface IPost {
   id: number;
   body: string;
   title: string;
+}
+
+export interface IComment {
+  postId: number;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
 }
