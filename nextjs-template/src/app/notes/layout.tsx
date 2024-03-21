@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import { MainLayout } from "@/layouts";
 import React from "react";
 

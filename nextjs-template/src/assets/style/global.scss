@@ -109,3 +109,27 @@ a {
     color-scheme: dark;
   }
 }
+
+.group-input {
+  width: 100%;
+}
+
+.fw {
+  width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.link {
+  color: rgb(0, 106, 124);
+  cursor: pointer;
+  &:hover {
+    color: rgb(0, 175, 175);
+  }
+}
+
+.error {
+  color: red;
+}
