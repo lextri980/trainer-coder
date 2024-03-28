@@ -21,6 +21,17 @@ const AuthReducer = createSlice({
       state.loading = false;
       state.message = action.payload;
     },
+    registerRequest(state, _) {
+      state.loading = true;
+    },
+    registerSuccess(state, action) {
+      state.loading = false;
+      state.message = action.payload;
+    },
+    registerFail(state, action) {
+      state.loading = false;
+      state.message = action.payload;
+    },
   },
 });
 

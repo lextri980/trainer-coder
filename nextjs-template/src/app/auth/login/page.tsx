@@ -7,9 +7,11 @@ import { schema } from "./schema";
 import { LoginContainer } from "./style";
 import { useAppDispatch } from "@/hooks";
 import { AuthAction } from "@/store/authStore/AuthReducer";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const defaultValues: ILogin = {
     username: "",
     password: "",
@@ -21,8 +23,12 @@ export default function Login() {
     formState: { errors },
   } = useForm<ILogin>({ resolver: yupResolver(schema), defaultValues });
 
+  const goRegister = () => {
+    router.push("/auth/register");
+  };
+
   const onLogin = async (data: ILogin) => {
-    dispatch(AuthAction.loginRequest(data))
+    dispatch(AuthAction.loginRequest(data));
   };
 
   return (
@@ -71,7 +77,10 @@ export default function Login() {
           </div>
           <div className="footer">
             <p>
-              Don't have account? <span className="link">Register</span>
+              Don't have account?{" "}
+              <span className="link" onClick={goRegister}>
+                Register
+              </span>
             </p>
             <Button variant="contained" onClick={handleSubmit(onLogin)}>
               Login

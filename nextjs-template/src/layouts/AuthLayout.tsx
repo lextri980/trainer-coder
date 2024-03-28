@@ -6,7 +6,7 @@ import bgImg from "@/assets/image/background-img.jpg";
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <AuthLayoutContainer>
-      <Image src={bgImg} layout="fill" objectFit="contain" alt="bg"></Image>
+      <Image src={bgImg} layout="fill" objectFit="fill" alt="bg"></Image>
       {children}
     </AuthLayoutContainer>
   );
