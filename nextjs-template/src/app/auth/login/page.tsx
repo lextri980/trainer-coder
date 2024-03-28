@@ -5,12 +5,13 @@ import { Controller, useForm } from "react-hook-form";
 import { ILogin } from "./interface";
 import { schema } from "./schema";
 import { LoginContainer } from "./style";
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { AuthAction } from "@/store/authStore/AuthReducer";
 import { useRouter } from "next/navigation";
 
 export default function Login() {
   const dispatch = useAppDispatch();
+  const authStore = useAppSelector((state) => state.auth);
   const router = useRouter();
   const defaultValues: ILogin = {
     username: "",
@@ -29,6 +30,11 @@ export default function Login() {
 
   const onLogin = async (data: ILogin) => {
     dispatch(AuthAction.loginRequest(data));
+    if (!authStore.loading && authStore.success) {
+      router.push("/notes/list");
+    } else {
+      reset();
+    }
   };
 
   return (

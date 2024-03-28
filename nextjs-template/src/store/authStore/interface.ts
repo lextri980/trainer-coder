@@ -1,6 +1,7 @@
 export interface IAuthStore {
   loading: boolean;
   message: string;
+  success: boolean;
 }
 
 export interface IAuth {

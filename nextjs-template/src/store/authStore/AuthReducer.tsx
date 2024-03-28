@@ -4,6 +4,7 @@ import { IAuthStore } from "./interface";
 const initialState: IAuthStore = {
   loading: false,
   message: "",
+  success: true,
 };
 
 const AuthReducer = createSlice({
@@ -16,10 +17,12 @@ const AuthReducer = createSlice({
     loginSuccess(state, action) {
       state.loading = false;
       state.message = action.payload;
+      state.success = true;
     },
     loginFail(state, action) {
       state.loading = false;
       state.message = action.payload;
+      state.success = false;
     },
     registerRequest(state, _) {
       state.loading = true;

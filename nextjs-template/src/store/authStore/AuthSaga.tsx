@@ -1,6 +1,7 @@
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import { AuthAction } from "./AuthReducer";
 import { loginApi, registerApi } from "@/services/api/authApi";
+import { setCookie } from "@/utils";
 
 export function* authWatcher() {
   yield all([
@@ -14,7 +15,7 @@ function* loginWorker(action: any): Generator {
     const response: any = yield call(loginApi, action.payload);
     if (response.status === 200) {
       yield put(AuthAction.loginSuccess(response.data.message));
-      localStorage.setItem("token", response.data.accessToken);
+      setCookie("token", response.data.accessToken);
     }
   } catch (error: any) {
     yield put(AuthAction.loginFail(error.response.data.message));
