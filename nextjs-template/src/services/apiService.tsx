@@ -16,11 +16,11 @@ apiService.interceptors.request.use(
     let token;
     const authenCookie = getCookie("token");
     if (authenCookie) {
-      token = authenCookie;
+      token = `Bearer ${authenCookie}`;
     } else if (authenCookie && authenCookie !== "") {
       token = authenCookie;
     }
-    config.headers.Authorization = token;
+    config.headers.Authorizations = token;
     return config;
   },
   (error) => Promise.reject(error)
@@ -30,14 +30,6 @@ apiService.interceptors.request.use(
 apiService.interceptors.response.use(
   (response) => response,
   (error) => {
-    // const originalRequest = error.config;
-    // This uses for refresh token
-    // if (error.response.status === 403 && !originalRequest._retry) {
-    //   originalRequest._retry = true;
-    //   const access_token = await refreshAccessToken();
-    //   axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-    //   return axiosApiInstance(originalRequest);
-    // }
     switch (error.response.status) {
       case 401:
         removeManyStorage(["token", "user"]);

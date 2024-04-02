@@ -32,4 +32,13 @@ export const NoteListContainer = styled.div`
       }
     }
   }
+  .add-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 0;
+    width: fit-content;
+    height: 64px;
+    border-radius: 100px;
+  }
 `;

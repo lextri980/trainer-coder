@@ -1,15 +1,26 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { NoteListContainer } from "./style";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { NoteAction } from "@/store/noteStore/NoteReducer";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
 export default function NoteList() {
-  const array = [1, 2, 3, 4, 5, 6, 7];
+  const dispatch = useAppDispatch();
+  const noteStore = useAppSelector((state) => state.note);
+
+  useEffect(() => {
+    dispatch(NoteAction.getNoteListRequest());
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <NoteListContainer>
-      {array.map(() => (
-        <div className="single-card">
+      {noteStore.noteList.map((item, index) => (
+        <div className="single-card" key={index}>
           <div className="header">
             <span className="title">Title</span>
             <div className="group-action">
@@ -23,6 +34,10 @@ export default function NoteList() {
           </div>
         </div>
       ))}
+
+      <Button variant="contained" size="small" className="add-btn">
+        <AddIcon />
+      </Button>
     </NoteListContainer>
   );
 }
