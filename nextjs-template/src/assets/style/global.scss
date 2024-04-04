@@ -127,7 +127,12 @@ a {
     color: rgb(0, 175, 175);
   }
 }
-
 .error {
   color: red;
+}
+.mw-400 {
+  min-width: 400px !important;
+}
+.pointer {
+  cursor: pointer;
 }

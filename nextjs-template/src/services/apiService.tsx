@@ -1,4 +1,4 @@
-import { getCookie, removeManyStorage, setLocal } from "@/utils";
+import { getLocal, removeManyStorage, setLocal } from "@/utils";
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const apiService = axios.create({
@@ -14,11 +14,9 @@ const apiService = axios.create({
 apiService.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     let token;
-    const authenCookie = getCookie("token");
+    const authenCookie = getLocal("token");
     if (authenCookie) {
       token = `Bearer ${authenCookie}`;
-    } else if (authenCookie && authenCookie !== "") {
-      token = authenCookie;
     }
     config.headers.Authorizations = token;
     return config;
