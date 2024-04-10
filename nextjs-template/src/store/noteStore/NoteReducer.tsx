@@ -56,6 +56,26 @@ const NoteReducer = createSlice({
       state.message = action.payload.message;
       state.note = null;
     },
+    updateNoteRequest(state, _) {
+      state.loading = true;
+    },
+    updateNoteSuccess(state, action) {
+      state.loading = false;
+      state.success = false;
+      state.noteList = state.noteList.map((item) => {
+        if (item._id === action.payload.note._id) {
+          return action.payload.note;
+        } else {
+          return item;
+        }
+      });
+    },
+    updateNoteFail(state, action) {
+      state.loading = false;
+      state.success = false;
+      state.message = action.payload.message;
+      state.note = null;
+    },
   },
 });
 

@@ -25,6 +25,7 @@ export default function NoteList() {
   const dispatch = useAppDispatch();
   const noteStore = useAppSelector((state) => state.note);
   const defaultValues = {
+    _id: "",
     title: "",
     content: "",
     status: "NORMAL",
@@ -43,7 +44,6 @@ export default function NoteList() {
 
   useEffect(() => {
     dispatch(NoteAction.getNoteListRequest());
-    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCloseModal = () => {
@@ -68,7 +68,13 @@ export default function NoteList() {
   }, [noteStore.note]);
 
   const submitNoteAction = (data: INote) => {
-    dispatch(NoteAction.createNoteRequest(data));
+    if (isUpdate) {
+      dispatch(
+        NoteAction.updateNoteRequest({ ...data, _id: noteStore.note?._id })
+      );
+    } else {
+      dispatch(NoteAction.createNoteRequest(data));
+    }
     handleCloseModal();
   };
 
@@ -190,7 +196,7 @@ export default function NoteList() {
         <DialogActions>
           <Button onClick={handleCloseModal}>Cancel</Button>
           <Button onClick={handleSubmit(submitNoteAction)} autoFocus>
-            Create
+            {isUpdate ? "Update" : "Create"}
           </Button>
         </DialogActions>
       </Dialog>

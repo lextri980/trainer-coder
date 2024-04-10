@@ -2,6 +2,7 @@ import {
   createNoteApi,
   getNoteDetailApi,
   getNoteListApi,
+  updateNoteApi,
 } from "@/services/api/noteApi";
 import { all, call, put, takeLatest } from "redux-saga/effects";
 import { NoteAction } from "./NoteReducer";
@@ -11,6 +12,7 @@ export function* noteWatcher() {
     takeLatest(NoteAction.getNoteListRequest.type, getNoteListWorker),
     takeLatest(NoteAction.createNoteRequest.type, createNoteWorker),
     takeLatest(NoteAction.getNoteDetailRequest.type, getNoteDetailWorker),
+    takeLatest(NoteAction.updateNoteRequest.type, updateNoteWorker),
   ]);
 }
 
@@ -28,12 +30,11 @@ function* getNoteListWorker(): Generator {
 function* createNoteWorker(action: any): Generator {
   try {
     const response: any = yield call(createNoteApi, action.payload);
-    console.log(response);
     if (response.status === 201) {
       yield put(NoteAction.createNotSuccess(response.data));
     }
   } catch (error: any) {
-    yield put(NoteAction.createNoteFail(error.response.data.message));
+    yield put(NoteAction.createNoteFail(error.response.data));
   }
 }
 
@@ -45,5 +46,20 @@ function* getNoteDetailWorker(action: any): Generator {
     }
   } catch (error: any) {
     yield put(NoteAction.getNoteDetailFail(error.response.data.message));
+  }
+}
+
+function* updateNoteWorker(action: any): Generator {
+  try {
+    const response: any = yield call(
+      updateNoteApi,
+      action.payload,
+      action.payload._id
+    );
+    if (response.status === 201) {
+      yield put(NoteAction.updateNoteSuccess(response.data));
+    }
+  } catch (error: any) {
+    yield put(NoteAction.updateNoteFail(error.response.data));
   }
 }

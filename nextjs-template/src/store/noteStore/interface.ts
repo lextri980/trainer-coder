@@ -7,6 +7,7 @@ export interface INoteStore {
 }
 
 export interface INote {
+  _id?: string;
   title: string;
   content: string;
   status: string;
