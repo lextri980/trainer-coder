@@ -1,5 +1,9 @@
 import { getLocal, removeManyStorage, setLocal } from "@/utils";
-import axios, { InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
 
 const apiService = axios.create({
   baseURL: process.env.BASE_URL,
@@ -27,8 +31,8 @@ apiService.interceptors.request.use(
 // Response interceptor for API calls
 apiService.interceptors.response.use(
   (response) => response,
-  (error) => {
-    switch (error.response.status) {
+  (error: AxiosError) => {
+    switch (error.response?.status) {
       case 401:
         removeManyStorage(["token", "user"]);
         // store.dispatch(logoutRequest());

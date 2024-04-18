@@ -1,11 +1,22 @@
 import {
   createNoteApi,
   getNoteDetailApi,
-  getNoteListApi,
   updateNoteApi,
 } from "@/services/api/noteApi";
-import { all, call, put, takeLatest } from "redux-saga/effects";
+import {
+  CallEffect,
+  Effect,
+  PutEffect,
+  SagaReturnType,
+  all,
+  call,
+  put,
+  takeLatest,
+} from "redux-saga/effects";
 import { NoteAction } from "./NoteReducer";
+import { apiService } from "@/services";
+import { AxiosResponse } from "axios";
+import { AnyAction } from "@reduxjs/toolkit";
 
 export function* noteWatcher() {
   yield all([
@@ -15,19 +26,26 @@ export function* noteWatcher() {
     takeLatest(NoteAction.updateNoteRequest.type, updateNoteWorker),
   ]);
 }
+const getNoteListApi = async () => await apiService.get("/note/lists");
+type ResponseType = SagaReturnType<typeof getNoteListApi>;
 
-function* getNoteListWorker(): Generator {
+function* getNoteListWorker(): Generator<
+  CallEffect<ResponseType> | PutEffect,
+  void,
+  ResponseType
+> {
   try {
-    const response: any = yield call(getNoteListApi);
+    const response = yield call(getNoteListApi);
     if (response.status === 200) {
       yield put(NoteAction.getNoteListSuccess(response.data));
     }
   } catch (error: any) {
+    console.log(error);
     yield put(NoteAction.getNoteListFail(error.response.data.message));
   }
 }
 
-function* createNoteWorker(action: any): Generator {
+function* createNoteWorker(action: Effect): Generator {
   try {
     const response: any = yield call(createNoteApi, action.payload);
     if (response.status === 201) {
@@ -38,7 +56,7 @@ function* createNoteWorker(action: any): Generator {
   }
 }
 
-function* getNoteDetailWorker(action: any): Generator {
+function* getNoteDetailWorker(action: Effect): Generator {
   try {
     const response: any = yield call(getNoteDetailApi, action.payload._id);
     if (response.status === 200) {
@@ -49,7 +67,7 @@ function* getNoteDetailWorker(action: any): Generator {
   }
 }
 
-function* updateNoteWorker(action: any): Generator {
+function* updateNoteWorker(action: Effect): Generator {
   try {
     const response: any = yield call(
       updateNoteApi,
