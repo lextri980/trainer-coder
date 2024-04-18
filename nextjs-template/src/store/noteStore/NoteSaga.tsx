@@ -1,6 +1,8 @@
+import { apiService } from "@/services";
 import {
   createNoteApi,
   getNoteDetailApi,
+  getNoteListApi,
   updateNoteApi,
 } from "@/services/api/noteApi";
 import {
@@ -14,9 +16,7 @@ import {
   takeLatest,
 } from "redux-saga/effects";
 import { NoteAction } from "./NoteReducer";
-import { apiService } from "@/services";
 import { AxiosResponse } from "axios";
-import { AnyAction } from "@reduxjs/toolkit";
 
 export function* noteWatcher() {
   yield all([
@@ -26,13 +26,14 @@ export function* noteWatcher() {
     takeLatest(NoteAction.updateNoteRequest.type, updateNoteWorker),
   ]);
 }
-const getNoteListApi = async () => await apiService.get("/note/lists");
-type ResponseType = SagaReturnType<typeof getNoteListApi>;
+
+type ResponseType<T extends (...arg: any) => Promise<AxiosResponse>> =
+  SagaReturnType<T>;
 
 function* getNoteListWorker(): Generator<
-  CallEffect<ResponseType> | PutEffect,
+  CallEffect<ResponseType<typeof getNoteListApi>> | PutEffect,
   void,
-  ResponseType
+  ResponseType<typeof getNoteListApi>
 > {
   try {
     const response = yield call(getNoteListApi);
@@ -45,9 +46,15 @@ function* getNoteListWorker(): Generator<
   }
 }
 
-function* createNoteWorker(action: Effect): Generator {
+function* createNoteWorker(
+  action: Effect
+): Generator<
+  CallEffect<ResponseType<typeof createNoteApi>> | PutEffect,
+  void,
+  ResponseType<typeof createNoteApi>
+> {
   try {
-    const response: any = yield call(createNoteApi, action.payload);
+    const response = yield call(createNoteApi, action.payload);
     if (response.status === 201) {
       yield put(NoteAction.createNotSuccess(response.data));
     }
